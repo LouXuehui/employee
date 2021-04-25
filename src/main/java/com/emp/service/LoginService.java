@@ -42,10 +42,6 @@ public class LoginService {
             } else {
                 // if ("0".equals(user.getStatusCode())) {
                 // throw new UserException("该用户已停用:" + userId);
-                // } else
-                // if (!EncryptUtils.md5(password).equals(user.getPassword())) {
-                // throw new UserException("密码不正确:" + userId);
-                // }
                 String pwd = user.getPassword();
                 if (password == pwd) {
                     throw new UserException("密码不正确:" + userId);
