@@ -28,4 +28,8 @@ public class EmpService extends ServiceImpl<EmpMapper, Employee> {
         return list;
     }
 
+    public Employee selectById(String id) {
+        return empMapper.selectById(id);
+    }
+
 }

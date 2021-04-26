@@ -1,25 +1,23 @@
 package com.emp.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.io.Serializable;
 import java.util.Date;
 
-@TableName("EMP")
+@TableName("emp")
 public class Employee implements Serializable {
     private static final long serialVersionUID = 1L;
     @TableId("ID")
     private String id;
-    @TableField("EMP_ID")
-    private String empId;
     @TableField("NAME")
     private String name;
     @TableField("SEX_CODE")
     private String sexCode;
-    @TableField("PHOTO")
-    private String photo;
+    @TableField("PHOTO_URL")
+    private String photoUrl;
     @TableField("TEL")
     private String tel;
     @TableField("ID_CARD")
@@ -50,15 +48,14 @@ public class Employee implements Serializable {
     private Date outDate;
     @TableField("REMARK")
     private String remark;
-    // @TableField("CREATED_BY")
-    // private String createdBy;
-    // @TableField("CREATE_DATE")
-    // private Date createDatetime;
-    // @TableField("MODIFIED_BY")
-    // private String modifiedBy;
-    // @TableField("MODIFY_DATE")
-    // private Date modifyDatetime;
-
+    @TableField("CREATED_BY")
+    private String createdBy;
+    @TableField("CREATE_DATE")
+    private Date createDate;
+    @TableField("MODIFY_BY")
+    private String modifiedBy;
+    @TableField("MODIFY_DATE")
+    private Date modifyDate;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -70,14 +67,6 @@ public class Employee implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(String empId) {
-        this.empId = empId;
     }
 
     public String getName() {
@@ -96,12 +85,12 @@ public class Employee implements Serializable {
         this.sexCode = sexCode;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getTel() {
@@ -224,14 +213,45 @@ public class Employee implements Serializable {
         this.remark = remark;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "id='" + id + '\'' +
-                ", empId='" + empId + '\'' +
                 ", name='" + name + '\'' +
                 ", sexCode='" + sexCode + '\'' +
-                ", photo='" + photo + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
                 ", tel='" + tel + '\'' +
                 ", idCard='" + idCard + '\'' +
                 ", birth=" + birth +
@@ -247,6 +267,10 @@ public class Employee implements Serializable {
                 ", inDate=" + inDate +
                 ", outDate=" + outDate +
                 ", remark='" + remark + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", createDate=" + createDate +
+                ", modifiedBy='" + modifiedBy + '\'' +
+                ", modifyDate=" + modifyDate +
                 '}';
     }
 }
