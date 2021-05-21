@@ -1,0 +1,86 @@
+.column(@main,@cross) {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  -webkit-justify-content: @main;
+  justify-content: @main;
+  -webkit-align-items: @cross;
+  align-items: @cross;
+}
+
+.loginBody {
+  background-size: cover;
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  background-image: url('../../../resources/static/images/bg.jpg');
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+  padding: 20px;
+  color: #FFF;
+}
+
+.content {
+  width: 30%;
+  height: 380px;
+  min-width: 400px;
+  background-color: #FFF;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #ccc;
+
+  .tabs {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 4px 0;
+
+    .tab, .selectedTab {
+      width: 50%;
+      text-align: center;
+      padding: 20px;
+      cursor: pointer;
+      background-color: #f7f7f7;
+
+      &:hover {
+        color: @primary-color;
+      }
+
+      &:first-child {
+        border-radius: 4px 0 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 4px 0 0;
+      }
+
+    }
+
+    .selectedTab {
+      color: @primary-color;
+      background-color: #FFF;
+    }
+  }
+
+  .form {
+    padding: 20px;
+
+    :global {
+      .ant-input-affix-wrapper, .ant-btn {
+        line-height: 2;
+      }
+
+      .ant-btn {
+        width: 100%;
+        height: 40px;
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+
+# dependencies
+/node_modules
+/npm-debug.log*
+/yarn-error.log
+/yarn.lock
+/package-lock.json
+
+# production
+/dist
+dist.*
+*.rar
+
+# misc
+.DS_Store
+
+# umi
+.umi
+.umi-production
+
+# idea
+.idea
+
+/static
