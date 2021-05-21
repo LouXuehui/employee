@@ -20,7 +20,6 @@ class Index extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         const {defaultValue, params} = nextProps
-        console.log(defaultValue, 'defaultValue')
         if (!deepEqual(defaultValue, this.props.defaultValue) || !deepEqual(params, this.props.params)) {
             this.setState({fileList: defaultValue || [], params})
         }

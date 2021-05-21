@@ -20,3 +20,7 @@ export function updateById(url, payload) {
 export function deleteById(url, payload) {
     return axios.get(`api/${url}/deleteById?id=${payload.id}`)
 }
+
+export function updatePassWord(url, payload) {
+    return axios.post(`api/${url}/updatePassWord`, payload)
+}

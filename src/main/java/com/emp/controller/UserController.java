@@ -8,13 +8,11 @@ import com.joinforwin.toolkit.kit.IdKit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -41,9 +39,10 @@ public class UserController {
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public Result insert(@RequestBody User user) throws Exception {
-//        user.setId(IdKit.createId());
+        user.setId(IdKit.createId());
         user.setCreatedBy("sa");
         user.setCreateDate(new Date());
+        user.setPassword("123456");
         userService.insert(user);
         return ResultBuilder.success().build();
     }
@@ -52,5 +51,10 @@ public class UserController {
     public Result deleteById(String id) {
         userService.deleteById(id);
         return ResultBuilder.success().build();
+    }
+
+    @RequestMapping(value = "/updatePassWord", method = RequestMethod.POST)
+    public Result updatePassWord(@RequestBody Map params) {
+        return userService.updatePassWord(params);
     }
 }

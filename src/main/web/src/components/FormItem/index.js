@@ -40,6 +40,8 @@ export default class FormItem extends Component {
                 return <TextArea {...params}/>
             case 'switch':
                 return <Switch {...params}/>
+            case 'password':
+                return <Input.Password {...params}/>
             default:
                 return <Input {...params}/>
         }
@@ -47,7 +49,7 @@ export default class FormItem extends Component {
 
     render() {
         const {record} = this.state
-        return <Form.Item label={record.label} name={record.name} rule={record.rule}>
+        return <Form.Item  {...record}>
             {this.renderFormItem()}
         </Form.Item>
     }

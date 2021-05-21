@@ -7,10 +7,7 @@ import com.emp.util.ResultBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -52,7 +49,7 @@ public class EmpController {
     }
 
     @RequestMapping(value = "/selectById")
-    public Result selectById(String id) {
-        return ResultBuilder.withPayload(empService.selectById(id)).build();
+    public Result selectById(@RequestParam String empId) {
+        return ResultBuilder.withPayload(empService.selectById(empId)).build();
     }
 }

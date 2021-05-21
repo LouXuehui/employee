@@ -195,8 +195,9 @@ class Layout extends Component {
 
     render() {
         const {visible} = this.state
-        const {panes, pwModalVisible, children, activePaneKey, menuList, employee, user} = this.props
+        const {panes, pwModalVisible, children, activePaneKey, menuList, employee} = this.props
         const {selectedEmp} = employee
+        console.log(selectedEmp, 'selectedEmp')
 
         return (
             <LocaleProvider locale={zhCN}>
@@ -266,7 +267,7 @@ class Layout extends Component {
                                     placement="bottomCenter"
                                 >
                                     <div className={styles.info}>
-                                        <Avatar src={avatar} size={26}/>
+                                        <Avatar src={selectedEmp.photoUrl || avatar} size={26}/>
                                         <span style={{marginLeft: 5}}>{selectedEmp ? selectedEmp.name : '未命名'}</span>
                                     </div>
                                 </Dropdown>

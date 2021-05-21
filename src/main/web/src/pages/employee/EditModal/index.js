@@ -4,6 +4,7 @@ import {Button, DatePicker, Form, Input, Modal, Select, Row, Col, InputNumber, S
 import {getStringLength} from "common/arr"
 import moment from 'moment'
 import {sexCode} from "../../../common/arr";
+import Upload from "../../../components/Upload";
 
 const {TextArea} = Input;
 const {Option} = Select;
@@ -17,7 +18,9 @@ const formItemLayout = [
 class Index extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            fileList: null
+        };
         this.formRef = React.createRef();
     }
 
@@ -83,6 +86,7 @@ class Index extends Component {
     }
 
     render() {
+        const {fileList} = this.state
         const {dispatch, showEditModal, record, position, dept} = this.props
         const {dataList: positionList} = position
         const {dataList: deptList} = dept
@@ -96,6 +100,16 @@ class Index extends Component {
         //     sexCode: "1",
         //     tel: "17712812345"
         // }
+
+        const normFile = (e) => {
+            console.log('Upload event:', e);
+
+            if (Array.isArray(e)) {
+                return e;
+            }
+
+            return e && e.fileList;
+        };
 
         return (
             <Modal
@@ -121,6 +135,22 @@ class Index extends Component {
                     }}
                     validateMessages={{required: '${label}不能为空！'}}
                 >
+                    <FormItem label={'头像'} name={'photoUrl'}
+                              getValueFromEvent={normFile}
+                              {...formItemLayout[0]}
+                    >
+                        <Upload defaultValue={
+                            fileList || [{
+                                uid: '-1',
+                                name: 'image.png',
+                                status: 'done',
+                                url: record.photoUrl,
+                            }]
+                        } changeValue={(photoUrl, fileList) => {
+                            this.setState({fileList})
+                            this.formRef.current.setFieldsValue({photoUrl})
+                        }}/>
+                    </FormItem>
                     <Row span={24}>
                         <Col span={12}>
                             <FormItem

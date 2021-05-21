@@ -3,13 +3,14 @@
  */
 import React, {Component} from 'react'
 import styles from './index.less'
-import {Form, Button} from 'antd';
+import {Form, Button, Avatar, Modal} from 'antd';
 import deepEqual from 'deep-equal'
 import {connect} from 'dva'
 import FormItem from "../../components/FormItem";
 import {genderList, politicsStatus} from "../../common/dictionary";
 import moment from 'moment'
 import Upload from "../../components/Upload";
+import {EyeTwoTone, EyeInvisibleOutlined} from '@ant-design/icons'
 
 const initState = {
     initValue: {},
@@ -37,7 +38,7 @@ class Index extends Component {
     }
 
     componentWillMount() {
-        const {selectedEmp} = this.props.layout
+        const {selectedEmp} = this.props.employee
         this.setState({selectedEmp})
         this.getInitValue(this.props)
     }
@@ -50,6 +51,7 @@ class Index extends Component {
         const {selectedEmp} = nextProps.employee
         if (!deepEqual(selectedEmp, this.props.employee.selectedEmp)) {
             this.setState({selectedEmp})
+            this.getInitValue(nextProps)
         }
     }
 
@@ -59,78 +61,92 @@ class Index extends Component {
         this.setState({initValue})
     }
 
-    onFinish = (values) => {
-        const {employee, dispatch} = this.props
-        const {selectedEmp} = employee
+    updatePhotoUrl(photoUrl) {
+        const {dispatch} = this.props
+        const {selectedEmp} = this.state
         dispatch({
             type: 'employee/updateById', payload: {
                 ...selectedEmp,
-                ...values,
-                birth: moment(values.birth).format('YYYY-MM-DD')
+                photoUrl
             }
         }).then(() => {
             dispatch({type: 'employee/selectById', payload: {empId: selectedEmp.id}})
+            this.setState({uploadVisible: false})
         })
-    };
+    }
 
-    resetForm() {
-        const {initValue} = this.state
-        this.formRef.current.resetFields();
-        this.formRef.current.setFieldsValue(initValue);
+    //展示修改密码弹框
+    showPassWordModal() {
+        const {dispatch} = this.props
+        dispatch({type: 'layout/setState', payload: {pwModalVisible: true}})
     }
 
     render() {
-        const {initValue, fileList} = this.state
-        const {dept} = this.props
+        const {initValue, fileList, photoUrl, uploadVisible} = this.state
+        const {dept, layout} = this.props
         const {dataList} = dept
+        const {user} = layout
         const list = [
             {name: 'id', label: '工号', params: {disabled: true}},
-            {name: 'name', label: '用户名',},
+            {name: 'name', label: '用户名', params: {disabled: true}},
+            {
+                name: 'password',
+                label: '密码',
+                params: {
+                    type: 'password',
+                    disabled: true,
+                    suffix: <a onClick={() => this.showPassWordModal()}>点击修改密码</a>
+                },
+            },
             {
                 name: 'sexCode', label: '性别',
                 type: 'select', optionList: genderList,
-                params: {defaultValue: '1'}
+                params: {defaultValue: '1', disabled: true}
             },
-            {name: 'birth', label: '出生日期', type: 'date'},
-            {name: 'deptId', label: '部门', type: 'select', optionList: dataList && dataList.length ? dataList : []},
-            {name: 'place', label: '住址', type: 'textArea'},
-            {name: 'email', label: 'E-Mail',},
-            {name: 'look', label: '政治面貌', type: 'select', optionList: politicsStatus},
-            {name: 'tel', label: '手机号',}
+            {name: 'birth', label: '出生日期', type: 'date', params: {disabled: true}},
+            {
+                name: 'deptId',
+                label: '部门',
+                type: 'select',
+                optionList: dataList && dataList.length ? dataList : [],
+                params: {disabled: true}
+            },
+            {name: 'place', label: '住址', type: 'textArea', params: {disabled: true}},
+            {name: 'email', label: 'E-Mail', params: {disabled: true}},
+            {name: 'look', label: '政治面貌', type: 'select', optionList: politicsStatus, params: {disabled: true}},
+            {name: 'tel', label: '手机号', params: {disabled: true}}
         ]
+        console.log(initValue, 'initValue')
 
         return (
             <div className={styles.myPage}>
-                <Form initialValues={initValue}
+                <Form initialValues={{...initValue, password: user.password}}
                       {...formLayout}
                       ref={this.formRef}
                       onFinish={this.onFinish}
                 >
                     <Form.Item label={'头像'} name={'photoUrl'}>
-                        <Upload defaultValue={
-                            fileList || [{
-                                uid: '-1',
-                                name: 'image.png',
-                                status: 'done',
-                                url: initValue.photoUrl,
-                            }]
-                        } changeValue={(photoUrl, fileList) => {
-                            this.setState({fileList})
-                            this.formRef.current.setFieldsValue({photoUrl})
-                        }}/>
+                        {
+                            initValue.photoUrl ?
+                                <Avatar src={initValue.photoUrl} style={{width: 80, height: 80, marginRight: 20}}/> :
+                                ''
+                        }
+                        <a onClick={() => this.setState({uploadVisible: true})}>点击修改头像</a>
                     </Form.Item>
                     {
                         list.map(item => {
                             return <FormItem record={item} form={this.formRef}/>
                         })
                     }
-                    <Form.Item>
-                        <div className={styles.btn}>
-                            <Button style={{marginRight: 10}} onClick={() => this.resetForm()}>取消</Button>
-                            <Button type={'primary'} htmlType="submit">提交</Button>
-                        </div>
-                    </Form.Item>
                 </Form>
+                <Modal title={'修改头像'}
+                       visible={uploadVisible}
+                       onOk={() => this.updatePhotoUrl(photoUrl)}
+                       onCancel={() => this.setState({uploadVisible: false})}>
+                    <Upload defaultValue={fileList} changeValue={(photoUrl, fileList) => {
+                        this.setState({fileList, photoUrl})
+                    }}/>
+                </Modal>
             </div>
         )
     }

@@ -19,8 +19,8 @@ class Index extends Component {
         const {user, dispatch} = this.props
         this.formRef.current.validateFields().then((values) => {
             dispatch({
-                type: 'layout/updatePassWord',
-                payload: {usercode: user.userId, oldpass: values.oldPwd, newpass: values.password}
+                type: 'userManagement/updatePassWord',
+                payload: {id: user.id, oldPassword: values.oldPwd, password: values.password}
             })
         })
     }
@@ -111,4 +111,4 @@ class Index extends Component {
     }
 }
 
-export default connect(({layout}) => ({...layout}))(Index);
+export default connect(({userManagement, layout}) => ({...userManagement, ...layout}))(Index);

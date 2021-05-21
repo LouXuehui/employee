@@ -48,6 +48,14 @@ export default {
                 yield put({type: 'selectList'})
             }
             alert('删除用户', data)
+        },
+        //更新密码
+        * updatePassWord({payload}, {call, put}) {
+            const {data} = yield call(services.updatePassWord, 'user', payload)
+            if (data && data.code === 1) {
+                yield put({type: 'layout/setState', payload: {user: data.payload, pwModalVisible: false}})
+            }
+            alert('修改密码', data)
         }
     }
 }
