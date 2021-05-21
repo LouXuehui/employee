@@ -7,17 +7,19 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
-@TableName("user")
-public class User implements Serializable {
+@TableName("position")
+public class Position implements Serializable {
     private static final long serialVersionUID = 1L;
     @TableId("ID")
     private String id;
-    @TableField("EMP_ID")
-    private String empId;
-    @TableField("PASSWORD")
-    private String password;
-    @TableField("ROLE_ID")
-    private String roleId;
+    @TableField("NAME")
+    private String name;
+    @TableField("DEPT_ID")
+    private String deptId;
+    @TableField("LEVEL")
+    private String level;
+    @TableField("REMARK")
+    private String remark;
     @TableField("IS_USE")
     private String isUse;
     @TableField("CREATED_BY")
@@ -29,9 +31,9 @@ public class User implements Serializable {
     @TableField("MODIFY_DATE")
     private Date modifyDate;
 
-    //名称
+    //部门名称
     @TableField(exist = false)
-    private String name;
+    private String deptName;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -45,28 +47,20 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getEmpId() {
-        return empId;
+    public String getName() {
+        return name;
     }
 
-    public void setEmpId(String empId) {
-        this.empId = empId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getCreatedBy() {
@@ -101,12 +95,20 @@ public class User implements Serializable {
         this.modifyDate = modifyDate;
     }
 
-    public String getName() {
-        return name;
+    public String getDeptId() {
+        return deptId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getIsUse() {
@@ -117,19 +119,28 @@ public class User implements Serializable {
         this.isUse = isUse;
     }
 
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "Position{" +
                 "id='" + id + '\'' +
-                ", empId='" + empId + '\'' +
-                ", password='" + password + '\'' +
-                ", roleId='" + roleId + '\'' +
+                ", name='" + name + '\'' +
+                ", deptId='" + deptId + '\'' +
+                ", level='" + level + '\'' +
+                ", remark='" + remark + '\'' +
                 ", isUse='" + isUse + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", createDate=" + createDate +
                 ", modifiedBy='" + modifiedBy + '\'' +
                 ", modifyDate=" + modifyDate +
-                ", name='" + name + '\'' +
+                ", deptName='" + deptName + '\'' +
                 '}';
     }
 }

@@ -4,6 +4,10 @@ export function selectList(url) {
     return axios.get(`api/${url}/selectList`)
 }
 
+export function selectById(url, payload) {
+    return axios.get(`api/${url}/selectById?empId=${payload.empId}`)
+}
+
 export function insert(url, payload) {
     console.log(payload, 'payload')
     return axios.post(`api/${url}/insert`, payload)

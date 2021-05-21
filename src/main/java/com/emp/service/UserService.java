@@ -5,20 +5,13 @@ import com.emp.entity.Employee;
 import com.emp.entity.User;
 import com.emp.mapper.EmpMapper;
 import com.emp.mapper.UserMapper;
-import com.emp.util.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserService extends ServiceImpl<UserMapper, User> {
-
-    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     UserMapper userMapper;
@@ -45,5 +38,9 @@ public class UserService extends ServiceImpl<UserMapper, User> {
 
     public User selectUserByEmpId(String id) {
         return userMapper.selectUserByEmpId(id);
+    }
+
+    public User selectUserByEmpIdAndRoleId(String empId, String roleId) {
+        return userMapper.selectUserByEmpIdAndRoleId(empId, roleId);
     }
 }

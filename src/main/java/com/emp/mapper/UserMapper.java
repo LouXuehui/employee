@@ -13,5 +13,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     User selectUserByEmpId(@Param("empId") String empId);
 
+    User selectUserByEmpIdAndRoleId(@Param("empId") String empId, @Param("roleId") String roleId);
+
     List<User> selectList();
 }

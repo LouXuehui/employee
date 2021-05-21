@@ -19,6 +19,6 @@ dist.*
 .umi-production
 
 # idea
-.idea
+/.idea
 
 /static

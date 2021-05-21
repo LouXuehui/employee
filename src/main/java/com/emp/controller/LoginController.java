@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.emp.util.Result;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,8 +31,9 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result login(HttpServletRequest request, HttpServletResponse response, Model model) {
-        String userId = (String) request.getParameter("userId");
+        String username = (String) request.getParameter("username");
         String password = (String) request.getParameter("password");
-        return loginService.verify(userId, password);
+        String roleId = (String) request.getParameter("roleId");
+        return loginService.verify(username, password, roleId);
     }
 }

@@ -4,7 +4,6 @@ import com.emp.entity.Employee;
 import com.emp.service.EmpService;
 import com.emp.util.Result;
 import com.emp.util.ResultBuilder;
-import com.joinforwin.toolkit.kit.IdKit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping("emp")
@@ -27,27 +28,31 @@ public class EmpController {
         return ResultBuilder.withPayload(empService.selectList()).build();
     }
 
-    @RequestMapping(value = "updateById", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateById", method = RequestMethod.POST)
     public Result updateById(@RequestBody Employee employee) throws Exception {
-//        employee.setModifiedBy("sa");
-//        employee.setModifyDate(new Date());
+        employee.setModifiedBy("sa");
+        employee.setModifyDate(new Date());
         empService.updateById(employee);
         return ResultBuilder.success().build();
     }
 
-
-    @RequestMapping(value = "insert", method = RequestMethod.POST)
-    public Result insert(@RequestBody Employee employee) throws Exception {
-        employee.setId(IdKit.createId());
-//        employee.setCreatedBy("sa");
-//        employee.setCreateDate(new Date());
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public Result insert(@RequestBody Employee employee) {
+//        employee.setId(IdKit.createId());
+        employee.setCreatedBy("sa");
+        employee.setCreateDate(new Date());
         empService.insert(employee);
         return ResultBuilder.success().build();
     }
 
-    @RequestMapping(value = "deleteById")
-    public Result deleteByMap(String empId) {
-        empService.deleteById(empId);
+    @RequestMapping(value = "/deleteById")
+    public Result deleteById(String id) {
+        empService.deleteById(id);
         return ResultBuilder.success().build();
+    }
+
+    @RequestMapping(value = "/selectById")
+    public Result selectById(String id) {
+        return ResultBuilder.withPayload(empService.selectById(id)).build();
     }
 }

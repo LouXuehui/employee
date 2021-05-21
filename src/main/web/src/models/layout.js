@@ -12,6 +12,7 @@ const initState = {
     pwModalVisible: false, //修改密码弹框
 
     user: '', //登录后
+    selectedEmp:'',//员工信息
     isRemembered: false, //是否记住密码
     isLogged: false,//是否已登录
 }

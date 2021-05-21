@@ -9,6 +9,7 @@ export default {
         showEditModal: false, // 新增编辑弹框
         total: '', //数据总数
         deleteVisible: false,//删除弹框
+        selectedEmp: ''
     },
     reducers: {
         setState(state, action) {
@@ -26,6 +27,15 @@ export default {
                 })
             } else {
                 alert('查询用户列表', data)
+            }
+        },
+        //查找
+        * selectById({payload}, {call, put}) {
+            const {data} = yield call(services.selectById, 'emp', payload)
+            if (data && data.code === 1) {
+                yield put({type: 'setState', payload: {selectedEmp: data.payload || {}}})
+            } else {
+                alert('查询', data)
             }
         },
         //新增

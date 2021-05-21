@@ -31,7 +31,8 @@ class Layout extends Component {
             this.loadPage(userId)
             let user = window.sessionStorage.getItem('user')
             let employee = window.sessionStorage.getItem('employee')
-            dispatch({type: 'layout/setState', payload: {user: JSON.parse(user), employee: JSON.parse(employee)}})
+            dispatch({type: 'layout/setState', payload: {user: JSON.parse(user)}})
+            dispatch({type: 'employee/setState', payload: {selectedEmp: JSON.parse(employee)}})
             layoutHashChange = window.addEventListener('hashchange', e => {
                 const {activePaneKey} = this.props
                 router.push({
@@ -195,7 +196,7 @@ class Layout extends Component {
     render() {
         const {visible} = this.state
         const {panes, pwModalVisible, children, activePaneKey, menuList, employee, user} = this.props
-        console.log(menuList, 'menuList')
+        const {selectedEmp} = employee
 
         return (
             <LocaleProvider locale={zhCN}>
@@ -266,7 +267,7 @@ class Layout extends Component {
                                 >
                                     <div className={styles.info}>
                                         <Avatar src={avatar} size={26}/>
-                                        <span style={{marginLeft: 5}}>{employee ? employee.name : '未命名'}</span>
+                                        <span style={{marginLeft: 5}}>{selectedEmp ? selectedEmp.name : '未命名'}</span>
                                     </div>
                                 </Dropdown>
                             </div>
@@ -295,7 +296,7 @@ class Layout extends Component {
 }
 
 function mapStateToProps(state) {
-    return Object.assign({}, state.layout, {
+    return Object.assign({}, state.layout, {employee: state.employee}, {
         loading: state.loading.models.layout
     })
 }

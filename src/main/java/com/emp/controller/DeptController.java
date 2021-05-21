@@ -1,7 +1,7 @@
 package com.emp.controller;
 
-import com.emp.entity.User;
-import com.emp.service.UserService;
+import com.emp.entity.Dept;
+import com.emp.service.DeptService;
 import com.emp.util.Result;
 import com.emp.util.ResultBuilder;
 import com.joinforwin.toolkit.kit.IdKit;
@@ -14,43 +14,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
-import java.util.List;
 
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("dept")
+public class DeptController {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    UserService userService;
+    DeptService deptService;
 
     @RequestMapping(value = "/selectList")
     public Result selectList() {
-        return ResultBuilder.withPayload(userService.selectList()).build();
+        return ResultBuilder.withPayload(deptService.selectList()).build();
     }
 
     @RequestMapping(value = "/updateById", method = RequestMethod.POST)
-    public Result updateById(@RequestBody User user) throws Exception {
-        user.setModifiedBy("sa");
-        user.setModifyDate(new Date());
-        userService.updateById(user);
+    public Result updateById(@RequestBody Dept dept) throws Exception {
+        dept.setModifiedBy("sa");
+        dept.setModifyDate(new Date());
+        deptService.updateById(dept);
         return ResultBuilder.success().build();
     }
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public Result insert(@RequestBody User user) throws Exception {
-//        user.setId(IdKit.createId());
-        user.setCreatedBy("sa");
-        user.setCreateDate(new Date());
-        userService.insert(user);
+    public Result insert(@RequestBody Dept dept) throws Exception {
+        dept.setId(IdKit.createId());
+        dept.setCreatedBy("sa");
+        dept.setCreateDate(new Date());
+        deptService.insert(dept);
         return ResultBuilder.success().build();
     }
 
     @RequestMapping(value = "/deleteById")
     public Result deleteById(String id) {
-        userService.deleteById(id);
+        deptService.deleteById(id);
         return ResultBuilder.success().build();
     }
 }

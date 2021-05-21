@@ -13,7 +13,7 @@ spring:
 
 emp:
   is-dev: true
-  dev-server-port: 8089
+  dev-server-port: 8091
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

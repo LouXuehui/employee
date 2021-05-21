@@ -26,8 +26,8 @@ public class Employee implements Serializable {
     private Date birth;
     @TableField("DEPT_ID")
     private String deptId;
-    @TableField("TYPE_ID")
-    private String typeId;
+    @TableField("POSITION_ID")
+    private String positionId;
     @TableField("DEGREE")
     private String degree;
     @TableField("LOOK")
@@ -125,12 +125,12 @@ public class Employee implements Serializable {
         this.deptId = deptId;
     }
 
-    public String getTypeId() {
-        return typeId;
+    public String getPositionId() {
+        return positionId;
     }
 
-    public void setTypeId(String typeId) {
-        this.typeId = typeId;
+    public void setPositionId(String positionId) {
+        this.positionId = positionId;
     }
 
     public String getDegree() {
@@ -256,7 +256,7 @@ public class Employee implements Serializable {
                 ", idCard='" + idCard + '\'' +
                 ", birth=" + birth +
                 ", deptId='" + deptId + '\'' +
-                ", typeId='" + typeId + '\'' +
+                ", positionId='" + positionId + '\'' +
                 ", degree='" + degree + '\'' +
                 ", look='" + look + '\'' +
                 ", email='" + email + '\'' +
