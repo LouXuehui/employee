@@ -1,0 +1,72 @@
+.pageWrapper {
+  width: 100%;
+  height: 100%;
+
+  .tool {
+    width: 100%;
+    height: 72px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    .toolLeft {
+      width: calc(~"100% - 200px");
+      height: 100%;
+    }
+
+    .toolRight {
+      width: 200px;
+      height: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    :global {
+      .ant-btn {
+        width: 90px;
+        margin-left: 10px;
+        border-radius: 15px;
+      }
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: calc(~"100% - 72px");
+    padding:0 20px;
+  }
+
+  .contentWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+
+  .contentLeft {
+    width: 240px;
+    height: 100%;
+    border-right: 1px solid #e8e8e8;
+
+    .treeWrap {
+      height: calc(~"100% - 72px");
+      overflow: hidden;
+
+      &:hover {
+        overflow: auto;
+      }
+
+      .icon {
+        display: inline-block;
+        vertical-align: text-top;
+        width: 14px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .contentRight {
+    width: calc(~"100% - 240px");
+    height: 100%;
+  }
+
+}

@@ -1,0 +1,38 @@
+.file {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+
+  .fileBtn {
+    color: @primary-color;
+    cursor: pointer;
+  }
+
+  .top {
+    width: 100%;
+    height: 32px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    :global {
+      .ant-btn {
+        border-radius: 15px;
+        width: 90px;
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: calc(~"100% - 52px");
+  }
+
+  :global {
+    .ant-input-suffix {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

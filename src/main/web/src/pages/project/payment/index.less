@@ -1,0 +1,92 @@
+.payment {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .top {
+    width: 100%;
+    height: 32px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    .tool {
+      width: calc(~"100% - 200px");
+      display: flex;
+
+      :global {
+        .ant-calendar-picker {
+          width: 220px;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+
+  .btn {
+    width: 200px;
+    text-align: right;
+
+    :global {
+      .ant-btn {
+        width: 90px;
+        margin-left: 10px;
+        border-radius: 18px;
+      }
+    }
+  }
+
+  .tableWrapper {
+    width: 100%;
+    height: calc(~"100% - 52px");
+  }
+
+  .masterTable {
+    width: 100%;
+    margin-bottom: 15px;
+    height: 320px;
+
+    :global {
+      .ant-table table {
+        .ant-table-tbody > tr {
+          cursor: pointer;
+        }
+
+        .clickRowStyle {
+          background-color: #e6f7ff !important;
+        }
+
+        .ant-table-tbody > .clickRowStyle:hover > td {
+          background-color: #e6f7ff !important;
+        }
+      }
+    }
+  }
+
+  .childTable {
+    width: 100%;
+    height: calc(~"100% - 335px");
+    min-height: 377px;
+
+    .registerTop {
+      width: 100%;
+      height: 32px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .registerTitle {
+      color: @primary-color;
+      display: flex;
+      align-items: center;
+
+      span {
+        padding-left: 10px;
+        border-left: 2px solid @primary-color;
+      }
+    }
+  }
+}
