@@ -34,16 +34,25 @@
     justify-content: space-between;
     align-items: center;
 
+    .leftTool {
+      :global {
+        .ant-btn {
+          border-radius: 0 4px 4px 0 !important;
+        }
+      }
+    }
+
     .rightBtn {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    :global {
-      .ant-btn {
-        border-radius: 15px;
-        width: 90px;
-        margin-left: 10px;
+
+      :global {
+        .ant-btn {
+          border-radius: 15px;
+          width: 90px;
+          margin-left: 10px;
+        }
       }
     }
   }

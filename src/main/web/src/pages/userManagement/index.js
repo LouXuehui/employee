@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'dva'
 import styles from './index.less'
-import {Button, Input, Table, Tooltip, Spin} from 'antd'
+import {Button, Input, Table, Tooltip, Avatar} from 'antd'
 import {CheckCircleTwoTone} from '@ant-design/icons'
 import moment from 'moment'
 import TipModal from 'components/TipModal'
@@ -15,12 +15,14 @@ class Index extends Component {
         super(props)
         this.state = {
             keyword: '',
-            selectedRoleId: '0',
+            selectedRoleId: '1',
             pageSize: Math.floor((document.body.clientHeight - 270) / 43),
         }
     }
 
     componentDidMount() {
+        const {dispatch} = this.props
+        dispatch({type: 'employee/selectList'})
         this.getDataList()
     }
 
@@ -76,7 +78,6 @@ class Index extends Component {
         const {current, pageSize, keyword, selectedRoleId} = this.state
         const {showEditModal, userList, tableLoading, userVisible, record, employee, layout} = this.props
         const {dataList} = employee
-        const {user} = layout
 
         let columns = [
             {
@@ -89,18 +90,13 @@ class Index extends Component {
                 }
             },
             {
-                key: 'name',
-                dataIndex: 'name',
-                title: '登录名',
+                key: 'photoUrl',
+                dataIndex: 'photoUrl',
+                title: '角色',
+                width: 120,
                 ellipsis: true,
                 render: text => {
-                    return (
-                        <span>
-              <Tooltip placement="topLeft" title={text}>
-                {text}
-              </Tooltip>
-            </span>
-                    )
+                    return text ? <Avatar src={text}/> : ''
                 }
             },
             {
@@ -120,36 +116,35 @@ class Index extends Component {
                 }
             },
             {
-                key: 'roleId',
-                dataIndex: 'roleId',
-                title: '角色',
-                width: 120,
+                key: 'name',
+                dataIndex: 'name',
+                title: '登录名',
                 ellipsis: true,
                 render: text => {
-                    return text === '1' ? '管理员' : '员工'
+                    return (
+                        <span>
+              <Tooltip placement="topLeft" title={text}>
+                {text}
+              </Tooltip>
+            </span>
+                    )
                 }
             },
-        ]
-        if (user && user.roleId === '1') {
-            columns.push(
-                {
-                    title: '操作',
-                    key: 'action',
-                    width: 100,
-                    render: (text, record) => (
-                        <div className="operation">
-                            <Operation name="编辑" addDivider onClick={() => this.showEditModal(record)}/>
-                            <div>
+            {
+                title: '操作',
+                key: 'action',
+                width: 100,
+                render: (text, record) => (
+                    <div className="operation">
+                        <div>
               <span className={'delete'} onClick={() => this.showDeleteModal(record)}>
                 删除
               </span>
-                            </div>
                         </div>
-                    )
-                }
-            )
-        }
-
+                    </div>
+                )
+            }
+        ]
         const limit = Math.floor((document.body.clientHeight - 270) / 43)
         let datasource = keyword ? userList.filter(user => user.name.indexOf(keyword) > -1) : userList
         const roleList = [{
@@ -163,19 +158,6 @@ class Index extends Component {
 
         return (
             <div className={styles.userWrapper}>
-                <div className={styles.top}>
-                    <Search
-                        placeholder="请输入关键字"
-                        onChange={e => this.setState({keyword: e.target.value})}
-                        style={{width: 200, marginRight: 10}}
-                    />
-                    <div className={styles.headerRight}>
-                        <Button onClick={() => this.getDataList()}>刷新</Button>
-                        <Button type="primary" onClick={() => this.handleAdd()}>
-                            新增
-                        </Button>
-                    </div>
-                </div>
                 <div className={styles.content}>
                     <div className={styles.contentLeft}>
                         <div className={styles.title}>角色</div>
@@ -192,12 +174,27 @@ class Index extends Component {
                         }
                     </div>
                     <div id="table" className={styles.contentRight} key={'2'}>
+                        <div className={styles.top}>
+                            <div className={styles.leftTool}>
+                                <Search
+                                    placeholder="请输入关键字"
+                                    onChange={e => this.setState({keyword: e.target.value})}
+                                    style={{width: 200, marginRight: 10}}
+                                />
+                            </div>
+                            <div className={styles.rightBtn}>
+                                <Button onClick={() => this.getDataList()}>刷新</Button>
+                                <Button type="primary" onClick={() => this.handleAdd()}>
+                                    新增
+                                </Button>
+                            </div>
+                        </div>
                         <Table
                             rowKey={record => record.id}
                             columns={columns}
                             dataSource={datasource.filter(data => data.roleId === selectedRoleId)}
                             loading={tableLoading}
-                            scroll={{x: '100%', y: pageSize > limit ? limit * 43 : void 0}}
+                            scroll={{x: 400, y: pageSize > limit ? limit * 43 : void 0}}
                             pagination={{
                                 pageSize,
                                 hideOnSinglePage: true
@@ -206,6 +203,7 @@ class Index extends Component {
                     </div>
                 </div>
                 {showEditModal ? <EditModal record={record} addUserList={dataList}
+                                            selectedRoleId={selectedRoleId}
                                             getDataList={() => this.getDataList(record ? current : 1, record ? keyword : '')}/> : void 0}
                 {userVisible ?
                     <TipModal visible={userVisible} message={'删除'} cancelModal={() => this.cancelDeleteModal()}

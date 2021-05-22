@@ -19,7 +19,8 @@ class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fileList: null
+            fileList: null,
+            deptId: props.record ? props.record.deptId : ''
         };
         this.formRef = React.createRef();
     }
@@ -86,7 +87,7 @@ class Index extends Component {
     }
 
     render() {
-        const {fileList} = this.state
+        const {fileList, deptId} = this.state
         const {dispatch, showEditModal, record, position, dept} = this.props
         const {dataList: positionList} = position
         const {dataList: deptList} = dept
@@ -100,9 +101,10 @@ class Index extends Component {
         //     sexCode: "1",
         //     tel: "17712812345"
         // }
+        // const {getFieldValue} = this.formRef.current
+        let showPositionList = positionList && positionList.length ? positionList.filter(data => data.deptId === deptId) : []
 
         const normFile = (e) => {
-            console.log('Upload event:', e);
 
             if (Array.isArray(e)) {
                 return e;
@@ -137,15 +139,21 @@ class Index extends Component {
                 >
                     <FormItem label={'头像'} name={'photoUrl'}
                               getValueFromEvent={normFile}
+                              rules={[{required: true}]}
                               {...formItemLayout[0]}
                     >
                         <Upload defaultValue={
-                            fileList || [{
-                                uid: '-1',
-                                name: 'image.png',
-                                status: 'done',
-                                url: record.photoUrl,
-                            }]
+                            fileList ||
+                            (
+                                record && record.photoUrl ?
+                                    [{
+                                        uid: '-1',
+                                        name: 'image.png',
+                                        status: 'done',
+                                        url: record.photoUrl,
+                                    }] : []
+                            )
+
                         } changeValue={(photoUrl, fileList) => {
                             this.setState({fileList})
                             this.formRef.current.setFieldsValue({photoUrl})
@@ -208,9 +216,11 @@ class Index extends Component {
                     <Row span={24}>
                         <Col span={12}>
                             <FormItem
-                                label="职位"
-                                name="positionId"
-                                rules={[{required: true}]}
+                                label="科室"
+                                name="deptId"
+                                rules={[{
+                                    required: true,
+                                }]}
                                 {...formItemLayout[1]}
                             >
                                 <Select showSearch
@@ -218,11 +228,15 @@ class Index extends Component {
                                             option.children
                                                 .toLowerCase()
                                                 .indexOf(input.toLowerCase()) >= 0
-                                        }>
+                                        }
+                                        onChange={(deptId) => {
+                                            this.setState({deptId})
+                                            this.formRef.current.setFieldsValue({positionId: ''})
+                                        }}
+                                >
                                     {
-                                        positionList && positionList.length ? positionList.map(item => {
-                                            return <Option value={item.id}
-                                                           key={item.id}>{item.name}（{item.level}）</Option>
+                                        deptList && deptList.length ? deptList.map(item => {
+                                            return <Option value={item.id} key={item.id}>{item.name}</Option>
                                         }) : void (0)
                                     }
                                 </Select>
@@ -230,11 +244,8 @@ class Index extends Component {
                         </Col>
                         <Col span={12}>
                             <FormItem
-                                label="科室"
-                                name="deptId"
-                                rules={[{
-                                    required: true,
-                                }]}
+                                label="职位"
+                                name="positionId"
                                 {...formItemLayout[2]}
                             >
                                 <Select showSearch
@@ -244,8 +255,9 @@ class Index extends Component {
                                                 .indexOf(input.toLowerCase()) >= 0
                                         }>
                                     {
-                                        deptList && deptList.length ? deptList.map(item => {
-                                            return <Option value={item.id} key={item.id}>{item.name}</Option>
+                                        showPositionList && showPositionList.length ? showPositionList.map(item => {
+                                            return <Option value={item.id}
+                                                           key={item.id}>{item.name}（{item.level}）</Option>
                                         }) : void (0)
                                     }
                                 </Select>

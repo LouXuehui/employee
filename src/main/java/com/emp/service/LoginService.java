@@ -29,8 +29,9 @@ public class LoginService {
     /**
      * 登录验证
      *
-     * @param userId
+     * @param roleId
      * @param password
+     * @param username
      * @return
      */
     public Result verify(String username, String password, String roleId) {

@@ -214,12 +214,14 @@ class Index extends Component {
         return (
             <div className={styles.userWrapper}>
                 <div className={styles.top}>
-                    <Search
-                        placeholder="请输入关键字"
-                        onChange={e => this.setState({keyword: e.target.value})}
-                        style={{width: 200, marginRight: 10}}
-                    />
-                    <div className={styles.headerRight}>
+                    <div className={styles.leftTool}>
+                        <Search
+                            placeholder="请输入关键字"
+                            onChange={e => this.setState({keyword: e.target.value})}
+                            style={{width: 200, marginRight: 10}}
+                        />
+                    </div>
+                    <div className={styles.rightBtn}>
                         <Button onClick={() => this.getDataList()}>刷新</Button>
                         <Button type="primary" onClick={() => this.handleAdd()}>
                             新增

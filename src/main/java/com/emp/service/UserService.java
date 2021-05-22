@@ -1,17 +1,17 @@
 package com.emp.service;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.emp.entity.Dept;
 import com.emp.entity.Employee;
+import com.emp.entity.Position;
 import com.emp.entity.User;
 import com.emp.mapper.EmpMapper;
 import com.emp.mapper.UserMapper;
 import com.emp.util.Result;
-import org.apache.ibatis.mapping.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +25,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     @Autowired
     EmpMapper empMapper;
 
+
     /**
      * 查询
      *
@@ -36,6 +37,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             for (User user : list) {
                 Employee employee = empService.selectById(user.getEmpId());
                 user.setName(employee.getName());
+                user.setPhotoUrl(employee.getPhotoUrl());
             }
         }
         return list;

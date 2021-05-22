@@ -33,6 +33,10 @@ public class User implements Serializable {
     @TableField(exist = false)
     private String name;
 
+    //头像
+    @TableField(exist = false)
+    private String photoUrl;
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -117,6 +121,15 @@ public class User implements Serializable {
         this.isUse = isUse;
     }
 
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -130,6 +143,7 @@ public class User implements Serializable {
                 ", modifiedBy='" + modifiedBy + '\'' +
                 ", modifyDate=" + modifyDate +
                 ", name='" + name + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
                 '}';
     }
 }

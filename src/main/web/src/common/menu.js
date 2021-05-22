@@ -23,10 +23,12 @@ export const menuList = [
             {
                 id: 'dept',
                 name: '部门管理',
+                parentId: 'system'
             },
             {
                 id: 'position',
                 name: '职位管理',
+                parentId: 'system'
             }
         ]
     }

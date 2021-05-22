@@ -73,7 +73,7 @@ class Layout extends Component {
             pathname: `/${menu.id}`,
             query: {}
         })
-        dispatch({type: 'layout/setState', payload: {openKeys: [menu.TreeID]}})
+        dispatch({type: 'layout/setState', payload: {openKeys: [menu.parentId]}})
     }
 
     //菜单事件
@@ -164,7 +164,6 @@ class Layout extends Component {
                     key={menu.id + ''}
                     title={
                         <div className={styles.menu}>
-                            {/*{menu.MenuTag ? <img src={menu.MenuTag} /> : void 0}*/}
                             <span>{menu.name}</span>
                         </div>
                     }
@@ -197,7 +196,6 @@ class Layout extends Component {
         const {visible} = this.state
         const {panes, pwModalVisible, children, activePaneKey, menuList, employee} = this.props
         const {selectedEmp} = employee
-        console.log(selectedEmp, 'selectedEmp')
 
         return (
             <LocaleProvider locale={zhCN}>
@@ -238,27 +236,18 @@ class Layout extends Component {
                                             <Menu.Item key="closeAllWindow" disabled={!(panes && panes.length)}>
                                                 <span>关闭所有窗口</span>
                                             </Menu.Item>
-                                            {/*<Menu.Item key="settings">*/}
-                                            {/*    <span>设置</span>*/}
-                                            {/*</Menu.Item>*/}
                                         </Menu>
                                     }
                                     placement="bottomCenter"
                                 >
                                     <SettingOutlined style={{color: '#999', marginRight: 10}}/>
                                 </Dropdown>
-                                {/*<QuestionCircleOutlined*/}
-                                {/*    style={{color: "#999", marginRight: 10}}*/}
-                                {/*/>*/}
                                 <Dropdown
                                     overlay={
                                         <Menu onClick={::this.handleMenu}>
                                             <Menu.Item key={'updatePassword'}>
                                                 <span>修改密码</span>
                                             </Menu.Item>
-                                            {/*<Menu.Item key={'layout'}>*/}
-                                            {/*    <span>系统注销</span>*/}
-                                            {/*</Menu.Item>*/}
                                             <Menu.Item key={'exiting'}>
                                                 <span>退出系统</span>
                                             </Menu.Item>

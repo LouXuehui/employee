@@ -1,6 +1,8 @@
 package com.emp.controller;
 
+import com.emp.entity.Employee;
 import com.emp.entity.User;
+import com.emp.service.EmpService;
 import com.emp.service.UserService;
 import com.emp.util.Result;
 import com.emp.util.ResultBuilder;
@@ -23,6 +25,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    EmpService empService;
+
     @RequestMapping(value = "/selectList")
     public Result selectList() {
         return ResultBuilder.withPayload(userService.selectList()).build();
@@ -38,12 +43,20 @@ public class UserController {
 
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public Result insert(@RequestBody User user) throws Exception {
-        user.setId(IdKit.createId());
-        user.setCreatedBy("sa");
-        user.setCreateDate(new Date());
-        user.setPassword("123456");
-        userService.insert(user);
+    public Result insert(@RequestBody Map param) throws Exception {
+        List<String> list = (List<String>) param.get("list");
+        if (list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                User user = new User();
+                user.setId(IdKit.createId());
+                user.setCreatedBy("sa");
+                user.setCreateDate(new Date());
+                user.setPassword("123456");
+                user.setEmpId(list.get(i));
+                user.setRoleId((String) param.get("roleId"));
+                userService.insert(user);
+            }
+        }
         return ResultBuilder.success().build();
     }
 

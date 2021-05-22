@@ -116,7 +116,8 @@ class Index extends Component {
             {name: 'look', label: '政治面貌', type: 'select', optionList: politicsStatus, params: {disabled: true}},
             {name: 'tel', label: '手机号', params: {disabled: true}}
         ]
-        console.log(initValue, 'initValue')
+        let showSave = uploadVisible && photoUrl
+        let showUpdate = !uploadVisible
 
         return (
             <div className={styles.myPage}>
@@ -126,12 +127,25 @@ class Index extends Component {
                       onFinish={this.onFinish}
                 >
                     <Form.Item label={'头像'} name={'photoUrl'}>
-                        {
-                            initValue.photoUrl ?
-                                <Avatar src={initValue.photoUrl} style={{width: 80, height: 80, marginRight: 20}}/> :
-                                ''
-                        }
-                        <a onClick={() => this.setState({uploadVisible: true})}>点击修改头像</a>
+                        <div className={styles.avatar}>
+                            <div>
+                                {
+                                    uploadVisible ?
+                                        <Upload defaultValue={fileList || [
+                                            {uid: '-1', status: 'done', name: '头像', url: initValue.photoUrl}
+                                        ]} changeValue={(photoUrl, fileList) => {
+                                            this.setState({fileList, photoUrl})
+                                        }}/> :
+                                        <Avatar src={initValue.photoUrl}
+                                                style={{width: 104, height: 104, marginRight: 20}}/>
+                                }
+                            </div>
+                            <div className={styles.update}>
+                                <a onClick={() => showSave ? this.updatePhotoUrl(photoUrl) : showUpdate ? this.setState({uploadVisible: true}) : ''}>
+                                    {showSave ? '点击保存' : showUpdate ? '点击修改' : ''}
+                                </a>
+                            </div>
+                        </div>
                     </Form.Item>
                     {
                         list.map(item => {
@@ -139,14 +153,6 @@ class Index extends Component {
                         })
                     }
                 </Form>
-                <Modal title={'修改头像'}
-                       visible={uploadVisible}
-                       onOk={() => this.updatePhotoUrl(photoUrl)}
-                       onCancel={() => this.setState({uploadVisible: false})}>
-                    <Upload defaultValue={fileList} changeValue={(photoUrl, fileList) => {
-                        this.setState({fileList, photoUrl})
-                    }}/>
-                </Modal>
             </div>
         )
     }

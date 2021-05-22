@@ -27,10 +27,11 @@ export default {
         //新增
         * insert({payload}, {call, put}) {
             const {data} = yield call(services.insert, 'user', payload)
+            alert('新增用户', data)
             if (data && data.code === 1) {
                 yield put({type: 'selectList'})
+                return true
             }
-            alert('新增用户', data)
         },
 
         //编辑

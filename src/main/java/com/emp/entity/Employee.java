@@ -48,6 +48,8 @@ public class Employee implements Serializable {
     private Date outDate;
     @TableField("REMARK")
     private String remark;
+    @TableField("ADDRESS")
+    private String address;
     @TableField("CREATED_BY")
     private String createdBy;
     @TableField("CREATE_DATE")
@@ -56,6 +58,14 @@ public class Employee implements Serializable {
     private String modifiedBy;
     @TableField("MODIFY_DATE")
     private Date modifyDate;
+
+    //部门名称
+    @TableField(exist = false)
+    private String deptName;
+
+    //职位名称
+    @TableField(exist = false)
+    private String positionName;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -241,6 +251,30 @@ public class Employee implements Serializable {
         return modifyDate;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
+
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
     }
@@ -267,10 +301,13 @@ public class Employee implements Serializable {
                 ", inDate=" + inDate +
                 ", outDate=" + outDate +
                 ", remark='" + remark + '\'' +
+                ", address='" + address + '\'' +
                 ", createdBy='" + createdBy + '\'' +
                 ", createDate=" + createDate +
                 ", modifiedBy='" + modifiedBy + '\'' +
                 ", modifyDate=" + modifyDate +
+                ", deptName='" + deptName + '\'' +
+                ", positionName='" + positionName + '\'' +
                 '}';
     }
 }

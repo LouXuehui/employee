@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'dva'
 import styles from './index.less'
-import {Input, Table, Tooltip, Button} from 'antd'
+import {Input, Table, Tooltip, Button, Avatar} from 'antd'
 import {CheckCircleTwoTone} from '@ant-design/icons'
 import moment from 'moment'
 import TipModal from 'components/TipModal'
 import Operation from 'components/Operation'
 import EditModal from './EditModal'
+import {searchByPy} from "../../common/pinYinUtil";
 
 const {Search} = Input
 
@@ -70,7 +71,8 @@ class Index extends Component {
 
     render() {
         const {record, current, pageSize, keyword} = this.state
-        const {showEditModal, dataList, loading, deleteVisible} = this.props
+        const {showEditModal, dataList, loading, deleteVisible, layout} = this.props
+        const {user} = layout
         let columns = [
             {
                 key: 'statusCode',
@@ -79,6 +81,16 @@ class Index extends Component {
                 width: 50,
                 render: text => {
                     return text ? <CheckCircleTwoTone/> : <div className={'circle'}/>
+                }
+            },
+            {
+                key: 'photoUrl',
+                dataIndex: 'photoUrl',
+                title: '工号',
+                width: 80,
+                ellipsis: true,
+                render: (text) => {
+                    return text ? <Avatar src={text}/> : ''
                 }
             },
             {
@@ -92,6 +104,38 @@ class Index extends Component {
                 key: 'name',
                 dataIndex: 'name',
                 title: '姓名',
+                width: 150,
+                ellipsis: true,
+                render: text => {
+                    return (
+                        <span>
+              <Tooltip placement="topLeft" title={text}>
+                {text}
+              </Tooltip>
+            </span>
+                    )
+                }
+            },
+            {
+                key: 'deptName',
+                dataIndex: 'deptName',
+                title: '部门',
+                width: 150,
+                ellipsis: true,
+                render: text => {
+                    return (
+                        <span>
+              <Tooltip placement="topLeft" title={text}>
+                {text}
+              </Tooltip>
+            </span>
+                    )
+                }
+            },
+            {
+                key: 'positionName',
+                dataIndex: 'positionName',
+                title: '职位',
                 width: 150,
                 ellipsis: true,
                 render: text => {
@@ -186,39 +230,48 @@ class Index extends Component {
                     )
                 }
             },
-            {
-                title: '操作',
-                key: 'action',
-                width: 100,
-                fixed: 'right',
-                render: (text, record) => (
-                    <div className="operation">
-                        <Operation name="编辑" addDivider onClick={() => this.showEditModal(record)}/>
-                        <div>
+        ]
+
+        if (user.roleId === '1') {
+            columns.push(
+                {
+                    title: '操作',
+                    key: 'action',
+                    width: 100,
+                    fixed: 'right',
+                    render: (text, record) => (
+                        <div className="operation">
+                            <Operation name="编辑" addDivider onClick={() => this.showEditModal(record)}/>
+                            <div>
               <span className={'delete'} onClick={() => this.showDeleteModal(record)}>
                 删除
               </span>
+                            </div>
                         </div>
-                    </div>
-                )
-            }
-        ]
+                    )
+                }
+            )
+        }
         const limit = Math.floor((document.body.clientHeight - 270) / 43)
-      let datasource = keyword ? dataList.filter(user => user.name.indexOf(keyword) > -1) : dataList
+        let datasource = keyword ? dataList.filter(user => searchByPy(keyword, user.name) || searchByPy(keyword, user.id)) : dataList
 
         return (
             <div className={styles.file}>
                 <div className={styles.top}>
-                    <Search
-                        placeholder="请输入检索关键字"
-                        onChange={e => this.setState({keyword: e.target.value})}
-                        style={{width: 200, marginRight: 10}}
-                    />
-                    <div className={styles.headerRight}>
+                    <div className={styles.leftTool}>
+                        <Search
+                            placeholder="请输入检索关键字"
+                            onChange={e => this.setState({keyword: e.target.value})}
+                            style={{width: 200, marginRight: 10}}
+                        />
+                    </div>
+                    <div className={styles.rightBtn}>
                         <Button onClick={() => this.loadData(1, keyword)}>刷新</Button>
-                        <Button type="primary" onClick={() => this.handleAdd()}>
-                            新增
-                        </Button>
+                        {
+                            user.roleId === '1' && <Button type="primary" onClick={() => this.handleAdd()}>
+                                新增
+                            </Button>
+                        }
                     </div>
                 </div>
                 <div id="project" className={styles.content}>
@@ -244,4 +297,4 @@ class Index extends Component {
     }
 }
 
-export default connect(({dict, employee, loading}) => ({dict, ...employee, loading}))(Index)
+export default connect(({dict, employee, layout, loading}) => ({dict, layout, ...employee, loading}))(Index)

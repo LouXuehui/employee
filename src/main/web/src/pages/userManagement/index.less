@@ -35,17 +35,25 @@
     justify-content: space-between;
     align-items: center;
 
+    .leftTool {
+      :global {
+        .ant-btn {
+          border-radius: 0 4px 4px 0 !important;
+        }
+      }
+    }
+
     .rightBtn {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
 
-    :global {
-      .ant-btn {
-        border-radius: 15px;
-        width: 90px;
-        margin-left: 10px;
+      :global {
+        .ant-btn {
+          border-radius: 15px;
+          width: 90px;
+          margin-left: 10px;
+        }
       }
     }
   }
@@ -61,6 +69,18 @@
       height: 100%;
       padding-right: 10px;
 
+      div {
+        &:nth-child(2) {
+          border-bottom: 1px solid #e8e8e8;
+          border-top: 1px solid #e8e8e8;
+        }
+
+        &:nth-child(3) {
+          border-top: none;
+          border-bottom: 1px solid #e8e8e8;
+        }
+      }
+
       .title {
         font-size: 16px;
         color: #333;
@@ -69,22 +89,17 @@
       }
 
       .selectedRole {
-        background-color: #eee;
+        background-color: #e6f7ff;
       }
 
       .role, .selectedRole {
         cursor: pointer;
         width: 100%;
         line-height: 40px;
-        border-top: 1px solid #e8e8e8;
         padding-left: 10px;
 
-        &:nth-child(2) {
-          border-bottom: 1px solid #e8e8e8;
-        }
-
-        &:hover{
-          background-color: #eee;
+        &:hover {
+          background-color: #e6f7ff;
         }
       }
     }
@@ -109,13 +124,6 @@
           background-color: #e6f7ff !important;
         }
       }
-    }
-  }
-
-  :global {
-    .ant-input-suffix {
-      display: flex;
-      align-items: center;
     }
   }
 }

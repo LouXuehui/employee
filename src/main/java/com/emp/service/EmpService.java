@@ -1,7 +1,9 @@
 package com.emp.service;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.emp.entity.Dept;
 import com.emp.entity.Employee;
+import com.emp.entity.Position;
 import com.emp.mapper.EmpMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,10 @@ public class EmpService extends ServiceImpl<EmpMapper, Employee> {
 
     @Autowired
     EmpMapper empMapper;
+    @Autowired
+    DeptService deptService;
+    @Autowired
+    PositionService positionService;
 
     /**
      * 查询
@@ -25,6 +31,14 @@ public class EmpService extends ServiceImpl<EmpMapper, Employee> {
      */
     public List<Employee> selectList() {
         List<Employee> list = empMapper.selectList();
+        if(list.size()>0){
+            for(Employee emp :list){
+                Dept dept = deptService.selectById(emp.getDeptId());
+                Position position = positionService.selectById(emp.getPositionId());
+                emp.setPositionName(position.getName());
+                emp.setDeptName(dept.getName());
+            }
+        }
         return list;
     }
 
